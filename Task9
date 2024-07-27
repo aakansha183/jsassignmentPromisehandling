@@ -1,0 +1,28 @@
+async function fetchSequentially(urls) {
+    const results = [];
+
+    for (const url of urls) {
+        try {
+            const response = await fetch(url);
+            if (!response.ok) {
+                throw new Error(`Error while fetching data: ${response.status} for URL: ${url}`);
+            }
+            const data = await response.json();
+            results.push(data);
+        } catch (error) {
+            results.push({ error: error.message });
+        }
+    }
+
+    return results;
+}
+
+const urls = [
+    ' https://jsonplaceholder.typicode.com/posts/2',
+    'https://fakestoreapi.com/products'
+
+];
+
+fetchSequentially(urls)
+    .then(results => console.log('All results:', results))
+    .catch(error => console.error('Error:', error.message));
