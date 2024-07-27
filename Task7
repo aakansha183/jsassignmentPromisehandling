@@ -1,0 +1,24 @@
+async function fetchWithRace(urls, timeout) {
+    const timeoutPromise = new Promise((_, reject) =>
+        setTimeout(() => reject(new Error('Request timed out')), timeout)
+    );
+
+    const fetchPromises = urls.map(url =>
+        fetch(url).then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status} for URL: ${url}`);
+            }
+            return response.json();
+        })
+    );
+
+    return Promise.race([timeoutPromise, ...fetchPromises]);
+}
+const urls = [
+    'https://fakestoreapi.com/products',
+    'https://api.open-meteo.com/v1/forecast?latitude=22.5411&longitude=88.3378&daily=weather_code,temperature_2m_max,temperature_2m_min&forecast_days=1'
+];
+
+fetchWithRace(urls, 5000)
+    .then(result => console.log('First successful response:', result))
+    .catch(error => console.error('Error:', error.message));
