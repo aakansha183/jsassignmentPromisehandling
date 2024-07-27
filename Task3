@@ -1,0 +1,29 @@
+function createPromise(value, delay) {
+    return new Promise((resolve) => {
+        setTimeout(() => {
+            resolve(value);
+        }, delay);
+    });
+}
+async function newPromise() {
+    console.log("Program in progress...");
+        const initialPromise = createPromise({data: "Hello, friend!", error: null}, 5000);
+    
+    try {
+        const firstResult = await initialPromise;
+        console.log("First Promise Resolved Value:", firstResult.data);
+        
+        const firstChainPromise = createPromise("First promise chain complete!", 2000);
+        const firstChainResult = await firstChainPromise;
+        console.log(firstChainResult); 
+        
+        const secondChainPromise = createPromise("Second promise chain complete!", 10000);
+        const secondChainResult = await secondChainPromise;
+        console.log(secondChainResult); 
+        
+    } catch (error) {
+        console.error("Error:", error);
+    }
+}
+
+newPromise();
