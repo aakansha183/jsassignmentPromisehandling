@@ -1,0 +1,27 @@
+function createPromise(message, delay) {
+    return new Promise((resolve) => {
+        setTimeout(() => {
+            resolve(message);
+        }, delay);
+    });
+}
+
+async function nextPromises() {
+    console.log("Program in progress...");
+    
+    const firstPromise = createPromise("Step 1 complete", 3000);
+    
+    try {
+        const firstResult = await firstPromise;
+        console.log(firstResult); 
+        
+        const secondPromise = createPromise("Step 2 Complete", 3000);
+        const secondResult = await secondPromise;
+        console.log(secondResult); 
+        
+    } catch (error) {
+        console.error("Error:", error);
+    }
+}
+
+nextPromises();
