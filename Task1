@@ -1,27 +1,17 @@
-function createPromise() {
-    return new Promise((resolve, reject) => {
-        setTimeout(() => {
-            resolve("Promise fulfilled");
-        }, 3000);
-        setTimeout(() => {
-            reject("Promise rejected");
-        }, 2000);
+console.log("Program started")
+function handlepromise(){
+    return new Promise((resolve,reject) => {
+        console.log("Program in progress")
+        setTimeout(()=>{
+            resolve("Promise resolved after 3 sec")
+        },3000);
+        setTimeout(()=>{
+            reject("promise rejected after 2 sec")
+        },2000);
+
     });
 }
+ handlepromise()
+             .then((result) => console.log(result))
+             .catch((error) => console.log(error))
 
-async function messagesDisplay() {
-    const promise = createPromise();
-    
-    console.log("Program in progress...");
-    
-    try {
-        const result = await promise;
-        console.log(result); 
-        console.log("Program complete");
-    } catch (error) {
-        console.log(error); 
-        console.log("Program failure");
-    }
-}
-
-messagesDisplay();
